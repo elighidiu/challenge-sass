@@ -1,12 +1,20 @@
-//MIXIN -  Make one mixin for the 3 lines of the box-shadow styling
+@import 'variables';
+
+//MIXINS -  Make one mixin for the 3 lines of the box-shadow styling
 @mixin box-shadow {
   -webkit-box-shadow: 10px 10px 19px -4px rgba(255, 255, 255, 0.75);
   -moz-box-shadow: 10px 10px 19px -4px rgba(255, 255, 255, 0.75);
   box-shadow: 10px 10px 19px -4px rgba(255, 255, 255, 0.75);
 }
 
-//VARIABLES - store information that you want to reuse
-$general-padding: 8px;
+//EXTEND - share a set of CSS properties from one selector to another
+%message-shared {
+  border: 1px solid #ccc;
+  padding: 10px;
+  color: #2748b3;
+  background-color: #000;
+  width: 100%;
+}
 
 body {
   font: 100% "Space Mono", monospace;
@@ -47,11 +55,10 @@ article {
     overflow: auto;
     box-sizing: border-box;
 
-    section#selling-points {
-        flex-grow: 2;
-        flex-basis: 100%
+    &#selling-points {
+      flex-grow: 2;
+      flex-basis: 100%;
     }
-    
   }
 
   code {
@@ -71,32 +78,64 @@ article {
 
     //use &.name_of_the_class when nesting classes
     &.before {
-        float: left;
-        width: 40%
+      float: left;
+      width: 40%;
     }
-    
+
     &.after {
-        float: right;
-        width: 40%
+      float: right;
+      width: 40%;
     }
   }
-
 }
 
 h1,
 h2,
 h6 {
-    color: #6B8EFF
+  color: #6b8eff;
 }
 
 h1 {
-    text-align: center
+  text-align: center;
 }
 
 h6 {
-    text-align: center;
-    font-size: 2em;
-    padding: $general-padding * 4;
-    margin-bottom: 0px
+  text-align: center;
+  font-size: 2em;
+  padding: $general-padding * 4;
+  margin-bottom: 0px;
 }
 
+.message,
+.success,
+.error,
+.warning {
+  @extend %message-shared; //shareing CSS properties defined for %message-shared from one selector to another
+}
+
+.success {
+  background-color: green;
+}
+
+.error {
+  background-color: red;
+}
+
+.warning {
+  background-color: orange;
+}
+
+a {
+  color: $active-link-color;
+
+  &.red:hover {
+    color: red;
+    background-color: $visited-link-background;
+    padding: $general-padding * 2;
+  }
+  &.blue:hover {
+    color: blue;
+    background-color: $visited-link-background;
+    padding: $general-padding;
+  }
+}
